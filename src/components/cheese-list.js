@@ -7,13 +7,21 @@ class CheeseList extends React.Component {
     this.props.dispatch(fetchCheeses());
   }
   render() {
-    const cheeseListString = this.props.cheeses.map((cheese,index) => {
+    const cheeseListString = this.props.cheeses.map(cheese => {
       return (
-        <li key={index}>
-          {cheese}
+        <li key={cheese.id}>
+          {cheese.name}
         </li>
       );
     });
+
+    if(this.props.loading){
+      return <div>Loading... </div>;
+    }
+
+    if(this.props.error){
+      return <div>{this.props.error}</div>;
+    }
 
     return (
       <ul>
@@ -24,7 +32,9 @@ class CheeseList extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    cheeses: state.cheeses
+    cheeses: state.cheeses,
+    loading: state.loading,
+    error: state.error
   };
 };
 

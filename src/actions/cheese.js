@@ -13,8 +13,13 @@ export const fetchCheeses = () => dispatch =>
         }
         return res.json();
       })
-      .then(data => dispatch(fetchCheesesSuccess(data)))
-      .catch(err => dispatch(fetchCheesesError(err)))
+      .then(data => {
+        dispatch(fetchCheesesSuccess(data));
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch(fetchCheesesError(err));
+      })
   );
 };
 
