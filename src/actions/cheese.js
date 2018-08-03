@@ -1,16 +1,23 @@
 import {API_BASE_URL} from '../config';
 
-export const fetchCheeses = () => {
-  fetchCheesesRequest();
+export const fetchCheeses = () => dispatch =>
+{
+  dispatch(fetchCheesesRequest());
   return(
     fetch(`${API_BASE_URL}/cheese`, {
       method: 'GET'
     })
-      .then(res =>res.json())
-      .then(data => fetchCheesesSuccess(data))
-      .catch(err => fetchCheesesError(err))
+      .then(res => {
+        if (!res.ok) {
+          return Promise.reject('Unable to reach server');
+        }
+        return res.json();
+      })
+      .then(data => dispatch(fetchCheesesSuccess(data)))
+      .catch(err => dispatch(fetchCheesesError(err)))
   );
 };
+
 
 
 export const FETCH_CHEESES_REQUEST = 'FETCH_CHEESES_REQUEST';
